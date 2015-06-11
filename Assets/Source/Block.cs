@@ -29,6 +29,10 @@ public class Block : MonoBehaviour {
 		
 		return _hitsRemaining;
 	}
+
+	public void updatePosition(Vector2 value){
+		//TODO: add code in to allow for block position to update
+	}
 	
 	public void destroyBlock() {
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
