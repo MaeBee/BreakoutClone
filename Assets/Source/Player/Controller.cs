@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class Controller : MonoBehaviour {
-	public Component CollisionBox;
 
 	// Use this for initialization
 	void Start () {
