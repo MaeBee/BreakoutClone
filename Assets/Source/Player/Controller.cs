@@ -2,11 +2,25 @@
 using System.Collections;
 
 public class Controller : MonoBehaviour {
-	public Component CollisionBox;
 
 	// Use this for initialization
 	void Start () {
+		EdgeCollider2D theEdge = GetComponent<EdgeCollider2D>();
+		Vector2[] points = theEdge.points;
 		
+		Vector2[] newPoints = new Vector2[6];
+		newPoints[0] = new Vector2(-2.6f, 0.2f);
+		newPoints[1] = new Vector2(-2f, 0.5f);
+		newPoints[2] = new Vector2(-1.4f, 0.7f);
+		newPoints[3] = new Vector2(1.4f, 0.7f);
+		newPoints[4] = new Vector2(2f, 0.5f);
+		newPoints[5] = new Vector2(2.6f, 0.2f);
+		
+		for (int i = 0; i <= 5; i++) {
+			points[i] = newPoints[i];
+		}
+		
+		theEdge.points = points;
 	}
 	
 	// Update is called once per frame
