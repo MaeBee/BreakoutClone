@@ -20,7 +20,6 @@ public class BoundsSetup : MonoBehaviour {
 				break;
 			case BoundType.Roof:
 				pos = new Vector2(transform.position.x, Camera.main.ViewportToWorldPoint(Vector3.up).y * 2 - 10);
-				print(Camera.main.ViewportToWorldPoint(Vector3.up).y);
 				transform.position = pos;
 				break;
 			case BoundType.Floor:

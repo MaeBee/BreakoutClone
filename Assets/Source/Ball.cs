@@ -48,7 +48,7 @@ public class Ball : MonoBehaviour {
 	
 	void OnCollisionEnter2D(Collision2D col) {
 		colliding = true;
-		print (speed);
+		// print (speed);
 		if ((col.gameObject == Paddle) && (transform.position.y > col.transform.position.y)) {
 			float hitFactor = (transform.position.x - col.transform.position.x) / col.gameObject.GetComponent<Renderer>().bounds.size.x;
 			Vector2 dir = new Vector2(hitFactor * 5, 1).normalized;

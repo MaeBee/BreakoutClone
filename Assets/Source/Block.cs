@@ -2,32 +2,37 @@
 using System.Collections;
 
 public class Block : MonoBehaviour {
-
-	public int _hitsRemaining, _baseHits;
-	
-	public int hitsRemaining {
-		get { return _hitsRemaining; }
-		set { _hitsRemaining = value; }
+	public enum PickupTypes {
+		WidePaddle, // Makes paddle wider
+		StickyPaddle, // Allows a "restart" by keeping the ball stuck to the paddle on contact like on startup
+		LaserPaddle, // Allows the player to shoot stuff to break blocks
+		FireBall, // Burns through blocks without bounding back
+		SplitBall // Clones all balls on the field
 	}
+	public PickupTypes EmbeddedPickup; // Allows BlockManager to hide a pickup in the block
 	
+	public int hitsRemaining;
 	public int baseHits {
-		get { return _baseHits; }
+		get;
+		private set;
 	}
-	
 	
 	public void BlockInit(int value) {
-		_baseHits = value;
-		_hitsRemaining = value;
+		baseHits = value;
+		hitsRemaining = value;
 	}
 	
 	public int modifyHits(int value) {
-		_hitsRemaining += value;
+		hitsRemaining += value;
 		
-		if (_hitsRemaining <= 0) {
-			_hitsRemaining = 0; // keep from going negative
+		if (hitsRemaining <= 0) {
+			hitsRemaining = 0;
+		}
+		if (hitsRemaining == 0) {
+			destroyBlock();
 		}
 		
-		return _hitsRemaining;
+		return hitsRemaining;
 	}
 
 	public void updatePosition(Vector2 value){
@@ -35,8 +40,10 @@ public class Block : MonoBehaviour {
 	}
 	
 	public void destroyBlock() {
-		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-
-		spriteRenderer.enabled = false;
+		gameObject.SetActive(false);
+	}
+	
+	void OnCollisionEnter2D(Collision2D col) {
+		modifyHits(-1);
 	}
 }
