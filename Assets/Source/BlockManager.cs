@@ -19,17 +19,17 @@ public class BlockManager : MonoBehaviour {
 		// blockHeight = 44;
 		
 		temp = Instantiate(BlockPrefab, Camera.main.ViewportToWorldPoint(new Vector3( 0, 0, 1)),Quaternion.identity) as GameObject;
-		blockWidth = temp.GetComponent<Renderer>().bounds.size.x / 2;
-		blockHeight = temp.GetComponent<Renderer>().bounds.size.y / 2;
+		blockWidth = temp.GetComponent<Renderer>().bounds.size.x;
+		blockHeight = temp.GetComponent<Renderer>().bounds.size.y;
 		temp.transform.position = new Vector3(blockWidth, blockHeight, 1);
-		// Destroy(temp);
+		Destroy(temp);
 		
 		// Turn pixels into viewport floats
 		blockViewportWidth = Camera.main.WorldToViewportPoint(new Vector3(blockWidth, 0, 0)).x;
 		blockViewportHeight = Camera.main.WorldToViewportPoint(new Vector3(0, blockHeight, 0)).y;
 		
 		// Calculate number of rows that can fit onto the screen and set amount of columns to generate
-		levelWidth = (int)Mathf.Floor(Camera.main.ViewportToWorldPoint(Vector3.one).x / blockWidth) - 1;
+		levelWidth = (int)Mathf.Floor(Camera.main.ViewportToWorldPoint(Vector3.one).x / blockWidth) - 2;
 		levelHeight = 5;
 		
 		print(levelWidth);
@@ -53,12 +53,13 @@ public class BlockManager : MonoBehaviour {
 			for (int column = 1; column <= levelWidth; column++){
 				
 				// Calculate position for right block
-				float posX = 0.5f + (column * blockWidth - blockWidth / 2);
-				float posY = 1 - (row * blockHeight + blockHeight / 2);
+				float posX = 0.5f + (2 * column * blockViewportWidth) - 2 * blockViewportWidth;
+				float posY = 4 - (row * blockViewportHeight);
 				
 				//Create right block and set parent
-				temp = Instantiate(BlockPrefab, Camera.main.ViewportToWorldPoint(new Vector3( posX, posY, 1)),Quaternion.identity) as GameObject;
+				temp = Instantiate(BlockPrefab, Camera.main.ViewportToWorldPoint(new Vector3(posX, posY, 1)),Quaternion.identity) as GameObject;
 				temp.transform.SetParent(gameObject.transform);
+				temp.transform.position = new Vector3(posX, posY, 1);
 				
 				// Set sprite colour
 				temp.GetComponent<SpriteRenderer>().color = BlockColors[Random.Range(0, BlockColors.Count - 1)];
@@ -68,11 +69,12 @@ public class BlockManager : MonoBehaviour {
 				BlockList.Add(temp);
 				
 				// Calculate position for left block
-				posX = 0.5f - (column * blockViewportWidth - blockViewportWidth / 2);
+				posX = 0.5f - (2 * column * blockViewportWidth);
 				
 				// Create left block and set parent
 				temp = Instantiate(BlockPrefab, Camera.main.ViewportToWorldPoint(new Vector3( posX, posY, 1)),Quaternion.identity) as GameObject;
 				temp.transform.SetParent(gameObject.transform);
+				temp.transform.position = new Vector3(posX, posY, 1);
 				
 				// Set sprite colour
 				temp.GetComponent<SpriteRenderer>().color = BlockColors[Random.Range(0, BlockColors.Count - 1)];
